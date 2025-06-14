@@ -16,8 +16,12 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 	
 	private final MemberRepository memberRepository;
-	private final PasswordEncoder passwordEncoder;
+	 private final PasswordEncoder passwordEncoder; 
 	
+	@GetMapping("/login")
+	public String loginPage() {
+	    return "login"; // login.html
+	}
 	@GetMapping("/signup")
 	public String signupView() {
 		return "/signup";
@@ -36,9 +40,14 @@ public class MemberController {
 		Member member = new Member();
 		member.setEmail(email);
 		member.setName(name);
-		member.setPassword(password);
-		member.setRole(phone);
-		return "redirect:/login";
+		member.setPassword(passwordEncoder.encode(password));
+		member.setPhone(phone);
+		member.setRole("USER");
+		
+		memberRepository.save(member);
+		return "/login";
+		
+		
 	}
 	
 

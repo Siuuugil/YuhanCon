@@ -24,7 +24,7 @@ public class SecurityConfig {
         http //http 객체를 통해 CSRF,인증,인가,로그인,로그아웃 등을 설정 
             .csrf(csrf -> csrf.disable()) //CRSF를 꺼둠 (개발 및 테스트용)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/signup", "/login", "/css/**", "/js/**").permitAll() //누구나 접근 가능
+                .requestMatchers("/main", "/signup", "/login", "/css/**", "/js/**").permitAll() //누구나 접근 가능
                 .requestMatchers("/admin/**").hasRole("ADMIN") //ADMIN 권한이 있어야 접근 가능 
                 .anyRequest().authenticated() //로그인된 사용자만 접근 가능
             )
@@ -41,7 +41,7 @@ public class SecurityConfig {
 
         return http.build();
     }
-
+    
     @Bean
     public PasswordEncoder passwordEncoder() { // 비밀번호 암호화/복호화에 사용
         return new BCryptPasswordEncoder();
