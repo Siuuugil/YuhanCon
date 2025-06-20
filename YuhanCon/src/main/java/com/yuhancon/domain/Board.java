@@ -22,7 +22,7 @@ public class Board {
     private String title;
     
     @ManyToOne(fetch = FetchType.LAZY) //다대일 관계 설정
-    @JoinColumn(name = "member_id") //외래키 이름을 명시적으로 설정
+    @JoinColumn(name = "member_id", nullable= true) //외래키 이름을 명시적으로 설정
     private Member member;
     
     private String content;

@@ -37,6 +37,9 @@ public class MemberController {
 						 Model model
 						 ) {
 		
+		System.out.println("에러 여부: " + bindingResult.hasErrors());
+	    System.out.println("에러 목록: " + bindingResult.getAllErrors());
+	    
 		if (bindingResult.hasErrors()) {
 	        return "signup";
 	    }
@@ -46,10 +49,11 @@ public class MemberController {
 	        return "signup";
 	    }
 
-	    member.setPassword(passwordEncoder.encode(member.getPassword()));
+	    
 	    member.setRole("USER");
 
 	    memberRepository.save(member);
+	    
 	    return "redirect:/login";
 	}
 }

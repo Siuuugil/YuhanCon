@@ -8,7 +8,6 @@
 <body>
   <div class="signup-container">
     <h2>회원가입</h2>
-    <form th:action="@{/signup}" method="post">
     <form th:action="@{/signup}" th:object="${member}" method="post">
   <div class="form-group">
     <label for="email">이메일</label>
