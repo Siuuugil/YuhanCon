@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>마이페이지</title>
+  <link rel="stylesheet" th:href="@{/css/mypage.css}">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- 상단 네비게이션 -->
+<div class="navbar">
+  <div class="nav-left">
+    <a href="/main" class="logo">YuhanCon</a>
+    <a href="/main">홈</a>
+    <a href="/concertinfo">공연정보</a>
+    <a href="/boardMain">게시판</a>
+    <a href="/mypage">마이페이지</a>
+  </div>
+  <div class="nav-right">
+    <a href="/logout">로그아웃</a>
+  </div>
+</div>
+
+<!-- 메인 컨테이너 -->
+<div class="container">
+  <h2>마이페이지</h2>
+  <div class="main-layout">
+
+    <!-- 왼쪽 패널 -->
+    <div class="left-panel">
+
+      <!-- 사용자 정보 -->
+      <div class="user-box">
+        <p><strong th:text="${member.name}">수길</strong>님 반갑습니다!</p>
+        <p>이메일: <span th:text="${member.email}"></span></p>
+        <p>전화번호: <span th:text="${member.phone}"></span></p>
+        <p><a href="/editInfo" class="link-text">회원정보를 변경하고 싶으신가요?</a></p>
+      </div>
+
+      <!-- 예매 정보 -->
+      <a href="/concertinfo" class="box-link">
+        <div class="booking-box">
+          <h3>예매 정보</h3>
+          <p>예매내역 아직 구현 안했음</p>
+        </div>
+      </a>
+
+      <!-- 내가 쓴 글 -->
+      <a href="/boardMain" class="box-link">
+        <div class="posts-box">
+          <h3>내가 쓴 글</h3>
+          <div th:if="${#lists.isEmpty(myPosts)}" class="no-posts">
+            <p>작성한 게시글이 없습니다.</p>
+          </div>
+          <div th:each="post : ${myPosts}" class="post-item">
+            <h4 class="post-title" th:text="${post.title}"></h4>
+            <p class="post-date" th:text="${#temporals.format(post.boardAt, 'yyyy-MM-dd')}"></p>
+            <p class="post-content" th:text="${post.content}"></p>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- 오른쪽 패널 -->
+    <div class="right-panel">
+      <h3>최근 내가 본 공연 목록</h3>
+      <p>🚧 아직 구현 중입니다.</p>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
