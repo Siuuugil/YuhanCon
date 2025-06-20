@@ -3,13 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>게시글 목록</title>
+    <link rel="stylesheet" th:href="@{/css/boardMain.css}">
 </head>
 <body>
+<!-- 상단 네비게이션 -->
+<div class="navbar">
+    <div class="nav-left">
+        <a href="/main" class="logo">YuhanCon</a>
+        <a href="/main">홈</a>
+        <a href="/concertinfo">공연정보</a>
+        <a href="/boardMain">게시판</a>
+        <a href="/mypage">마이페이지</a>
+    </div>
+    <div class="nav-right">
+        <a href="/logout">로그아웃</a>
+    </div>
+</div>
+
 <h1>게시글 목록</h1>
 
 <table border="1">
+ 	<colgroup>
+        <col style="width: 8%;">   <!-- 번호 -->
+        <col style="width: 50%;">  <!-- 제목 -->
+        <col style="width: 14%;">  <!-- 작성자 -->
+        <col style="width: 14%;">  <!-- 조회수 -->
+        <col style="width: 14%;">  <!-- 작성일 -->
+    </colgroup>
     <thead>
         <tr>
+        	<th>번호</th>
             <th>제목</th>
             <th>작성자</th>
             <th>조회수</th>
@@ -18,6 +41,7 @@
     </thead>
     <tbody>
         <tr th:each="board : ${boardlist}">
+        	<td th:text="${board.id}">1</td>
             <td>
                 <a th:href="@{'/boardDetail/' + ${board.id}}" th:text="${board.title}">제목</a>
             </td>

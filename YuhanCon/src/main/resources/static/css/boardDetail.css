@@ -1,0 +1,97 @@
+/* 전체 기본 스타일 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* 네비게이션 바 */
+.navbar {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left a, .nav-right a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+}
+
+.nav-left .logo {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* 제목 스타일 */
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 28px;
+    color: #333;
+}
+
+/* 구분선 */
+.divider {
+    width: 60%;
+    margin: 20px auto 40px;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+/* 본문 내용 박스 */
+.content-box {
+    width: 60%;
+    margin: 30px auto 20px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+
+    font-size: 17px;
+    line-height: 1.8;
+    color: #333;
+    white-space: pre-wrap;
+
+    text-align: left;      
+    display: block;
+    min-height: 150px;      
+}
+
+/* 작성자, 날짜 정보 */
+.meta-info {
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+/* 버튼 영역 */
+.detail-actions {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* 버튼 스타일 */
+.detail-actions a,
+.detail-actions button {
+    background-color: #333;
+    color: white;
+    padding: 8px 16px;
+    font-size: 15px;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.detail-actions a:hover,
+.detail-actions button:hover {
+    background-color: #555;
+}
