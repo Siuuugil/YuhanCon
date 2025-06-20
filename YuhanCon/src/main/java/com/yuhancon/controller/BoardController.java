@@ -49,7 +49,7 @@ public class BoardController {
     // 게시판 메인
     @GetMapping("/boardMain")
     public String list(Model model) {
-        model.addAttribute("boardlist", boardRepository.findAll());
+        model.addAttribute("boardlist", boardRepository.findAll()); //게시글 리스트 가져오려면 boardlist 사용. 
         return "boardMain";
     }
 
