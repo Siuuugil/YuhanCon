@@ -36,16 +36,26 @@
         <p><strong th:text="${member.name}">수길</strong>님 반갑습니다!</p>
         <p>이메일: <span th:text="${member.email}"></span></p>
         <p>전화번호: <span th:text="${member.phone}"></span></p>
-        <p><a href="/editInfo" class="link-text">회원정보를 변경하고 싶으신가요?</a></p>
+        <p><a href="/editMember" class="link-text">회원정보를 변경하고 싶으신가요?</a></p>
       </div>
 
       <!-- 예매 정보 -->
-      <a href="/concertinfo" class="box-link">
-        <div class="booking-box">
-          <h3>예매 정보</h3>
-          <p>예매내역 아직 구현 안했음</p>
-        </div>
-      </a>
+	<div class="booking-box" th:if="${not #lists.isEmpty(reserveList)}">
+  		<h3>예매 정보</h3>
+  		<div th:each="reserve : ${reserveList}">
+    		<!-- 공연 제목을 클릭하면 상세페이지로 이동 -->
+    		<p>
+      		<a th:href="@{|/concertDetail/${reserve.concert.id}|}" 
+         		th:text="${reserve.concert.title}" 
+         		class="link-text"
+         		style="font-weight: bold; text-decoration: underline; color: #333;">
+      		</a>
+    		</p>
+    		<p th:text="${#temporals.format(reserve.concert.date, 'yyyy-MM-dd')}">공연 날짜</p>
+    		<p th:text="'예매 수량: ' + ${reserve.seatCount} + '장'"></p>
+  		</div>
+	</div>
+
 
       <!-- 내가 쓴 글 -->
       <a href="/boardMain" class="box-link">
@@ -66,9 +76,19 @@
 
     <!-- 오른쪽 패널 -->
     <div class="right-panel">
-      <h3>최근 내가 본 공연 목록</h3>
-      <p>🚧 아직 구현 중입니다.</p>
-    </div>
+  <h3>최근 내가 본 공연 목록</h3>
+
+  <div th:if="${#lists.isEmpty(recentConcerts)}">
+    <p>최근 본 공연이 없습니다.</p>
+  </div>
+
+  <div th:each="view : ${recentConcerts}">
+    <a th:href="@{|/concertDetail/${view.concert.id}|}" class="link-text">
+      <p th:text="${view.concert.title}" style="font-weight: bold; color: #333;"></p>
+    </a>
+    <p th:text="${#temporals.format(view.concert.date, 'yyyy-MM-dd')}"></p>
+  </div>
+</div>
 
   </div>
 </div>
