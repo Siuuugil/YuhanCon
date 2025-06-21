@@ -55,16 +55,16 @@
   </form>
 </div>
 
-<!-- 버튼 영역 -->
 <div class="detail-actions">
-  <a th:href="@{'/concertEdit/' + ${concert.id}}">수정</a>
+  <a th:if="${isOwner}" th:href="@{'/concertEdit/' + ${concert.id}}">수정</a>
 
-  <form th:action="@{'/concertDelete/' + ${concert.id}}" method="post" style="display:inline;">
+  <form th:if="${isOwner}" th:action="@{'/concertDelete/' + ${concert.id}}" method="post" style="display:inline;">
     <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
   </form>
 
   <a th:href="@{/concertList}">목록으로</a>
 </div>
+
 
 </body>
 </html>

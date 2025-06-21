@@ -34,14 +34,22 @@
 
 <hr class="divider">
 
+<!-- 버튼 영역 -->
 <div class="detail-actions">
-    <a th:href="@{'/boardEdit/' + ${board.id}}">수정</a>
+  <div class="btn-group">
+    <!-- 작성자만 수정/삭제 가능 -->
+    <a th:if="${isOwner}" th:href="@{'/boardEdit/' + ${board.id}}" class="action-btn">수정</a>
 
-    <form th:action="@{'/boardDelete/' + ${board.id}}" method="post" style="display:inline;">
-        <button type="submit">삭제</button>
-    </form>
+	<form th:if="${isOwner}" th:action="@{'/boardDelete/' + ${board.id}}" method="post" style="display:inline;">
+	  <button type="submit" class="action-btn"
+	          onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+	</form>
 
-    <a th:href="@{/boardMain}">목록으로</a>
+    <!-- 목록은 항상 보임 -->
+    <a th:href="@{/boardMain}" class="action-btn">목록으로</a>
+  </div>
 </div>
+
+
 </body>
 </html>

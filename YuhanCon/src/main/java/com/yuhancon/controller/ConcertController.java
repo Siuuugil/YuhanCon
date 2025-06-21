@@ -83,10 +83,17 @@ public class ConcertController {
     @PostMapping("/concert/save")
     public String saveConcert(
             @ModelAttribute Concert concert,
-            @RequestParam("imageFile") MultipartFile imageFile
+            @RequestParam("imageFile") MultipartFile imageFile,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
         try {
             concert.setAvailableSeats(concert.getTotalSeats());
+
+            if (userDetails != null) {
+                Member member = memberRepository.findByEmail(userDetails.getUsername())
+                        .orElseThrow();
+                concert.setMember(member);
+            }
 
             String savedPath = saveImage(imageFile);
             if (savedPath != null) {
@@ -101,31 +108,31 @@ public class ConcertController {
         return "redirect:/concertList";
     }
 
+
     // 공연 상세 보기
-    @Transactional
     @GetMapping("/concertDetail/{id}")
-    public String showConcertDetail(@PathVariable Long id, Model model,
-    								@AuthenticationPrincipal UserDetails userDetails) {
+    @Transactional
+    public String showConcertDetail(@PathVariable Long id,
+                                    Model model,
+                                    @AuthenticationPrincipal UserDetails userDetails) {
+
         Concert concert = concertRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("해당 공연이 없습니다. id=" + id));
         model.addAttribute("concert", concert);
-        
-     // 최근 본 공연 기록 추가
-        if (userDetails != null) {
-            Member member = memberRepository.findByEmail(userDetails.getUsername())
-                                .orElseThrow();
 
-            recentConcertViewRepository.deleteByMemberAndConcert(member, concert); // 중복 제거
-            RecentConcertView view = new RecentConcertView();
-            view.setMember(member);
-            view.setConcert(concert);
-            view.setViewedAt(java.time.LocalDateTime.now());
-            recentConcertViewRepository.save(view);
+        boolean isOwner = false;
+
+        if (userDetails != null && concert.getMember() != null) {
+            String loginEmail = userDetails.getUsername();
+            String writerEmail = concert.getMember().getEmail();
+            isOwner = loginEmail.equals(writerEmail);
         }
 
-        
+        model.addAttribute("isOwner", isOwner);
+
         return "concertDetail";
     }
+
 
     // 공연 수정 폼
     @GetMapping("/concertEdit/{id}")

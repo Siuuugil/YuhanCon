@@ -34,6 +34,21 @@
     </div>
 
     <div class="slide-button" id="next">▷</div>
+    
+<!-- 예매 가능한 공연 목록 -->
+<div class="concert-preview-section">
+  <h2>공연 미리보기</h2>
+  <div class="concert-card-container">
+    <div th:each="concert : ${concertList}" class="concert-card">
+      <a th:href="@{|/concertDetail/${concert.id}|}" class="concert-link">
+        <h3 th:text="${concert.title}">공연 제목</h3>
+        <p th:text="${concert.place}">공연 장소</p>
+        <p th:text="${#temporals.format(concert.date, 'yyyy-MM-dd')}">공연 날짜</p>
+      </a>
+    </div>
+  </div>
+</div>
+
 </div>
 <!-- 자동 슬라이드용 스크립트 -->
 <script>

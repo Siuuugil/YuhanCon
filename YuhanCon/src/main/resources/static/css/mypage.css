@@ -55,11 +55,14 @@ h2 {
 
 /* 링크 글자 */
 .link-text {
-  color: #007bff;
+  color: #333;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.2s ease;
 }
+
 .link-text:hover {
+  color: #0056b3;
   text-decoration: underline;
 }
 
@@ -116,5 +119,15 @@ h2 {
 @media (max-width: 768px) {
   .main-layout {
     flex-direction: column;
-  }
+}
+  
+.booking-item {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #fafafa;
+  border-radius: 10px;
+  border-left: 4px solid #007bff;
+  border: 1px solid #e0e0e0;
+}
+
 }

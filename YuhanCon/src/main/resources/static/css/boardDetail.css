@@ -117,3 +117,25 @@ h1 {
     white-space: pre-line;
 }
 
+.btn-group {
+  display: flex;
+  gap: 15px;
+}
+
+.action-btn {
+  background-color: #333;
+  color: white;
+  padding: 9px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background-color: #555;
+}
+
+

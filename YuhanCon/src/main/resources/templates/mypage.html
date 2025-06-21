@@ -39,22 +39,17 @@
         <p><a href="/editMember" class="link-text">회원정보를 변경하고 싶으신가요?</a></p>
       </div>
 
-      <!-- 예매 정보 -->
-	<div class="booking-box" th:if="${not #lists.isEmpty(reserveList)}">
-  		<h3>예매 정보</h3>
-  		<div th:each="reserve : ${reserveList}">
-    		<!-- 공연 제목을 클릭하면 상세페이지로 이동 -->
-    		<p>
-      		<a th:href="@{|/concertDetail/${reserve.concert.id}|}" 
-         		th:text="${reserve.concert.title}" 
-         		class="link-text"
-         		style="font-weight: bold; text-decoration: underline; color: #333;">
-      		</a>
-    		</p>
-    		<p th:text="${#temporals.format(reserve.concert.date, 'yyyy-MM-dd')}">공연 날짜</p>
-    		<p th:text="'예매 수량: ' + ${reserve.seatCount} + '장'"></p>
-  		</div>
-	</div>
+	 <!-- 예매 정보 -->
+	 <div class="booking-box" th:if="${not #lists.isEmpty(reserveList)}">
+	   <h3>예매 정보</h3>
+	   <div th:each="reserve : ${reserveList}" class="booking-item">
+	     <a th:href="@{|/concertDetail/${reserve.concert.id}|}" class="link-text">
+	       <h4 class="post-title" th:text="${reserve.concert.title}"></h4>
+	     </a>
+	     <p class="post-date" th:text="${#temporals.format(reserve.concert.date, 'yyyy-MM-dd')}"></p>
+	     <p class="post-content" th:text="'예매 수량: ' + ${reserve.seatCount} + '장'"></p>
+	   </div>
+	 </div>
 
 
       <!-- 내가 쓴 글 -->
@@ -65,7 +60,8 @@
             <p>작성한 게시글이 없습니다.</p>
           </div>
           <div th:each="post : ${myPosts}" class="post-item">
-            <h4 class="post-title" th:text="${post.title}"></h4>
+            <a th:href="@{|/boardDetail/${post.id}|}" class="link-text">
+   			<h4 class="post-title" th:text="${post.title}"></h4>
             <p class="post-date" th:text="${#temporals.format(post.boardAt, 'yyyy-MM-dd')}"></p>
             <p class="post-content" th:text="${post.content}"></p>
           </div>

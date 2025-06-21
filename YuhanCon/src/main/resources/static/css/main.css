@@ -76,3 +76,58 @@ body {
 #next {
     right: 20px;
 }
+
+/* 예매 가능한 공연 섹션 */
+.concert-preview-section {
+  padding: 40px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.concert-preview-section h2 {
+  font-size: 2em;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+.concert-card-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.concert-card {
+  width: 250px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fafafa;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  padding: 20px;
+  text-align: left;
+}
+
+.concert-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.concert-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.concert-card p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 0.95em;
+}
+
+.concert-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+

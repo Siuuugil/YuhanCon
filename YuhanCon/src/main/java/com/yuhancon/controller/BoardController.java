@@ -3,6 +3,7 @@ package com.yuhancon.controller;
 import java.time.LocalDate;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.yuhancon.domain.Member;
 import com.yuhancon.domain.Board;
+import com.yuhancon.domain.Member;
 import com.yuhancon.repository.BoardRepository;
 import com.yuhancon.security.CustomUserDetails;
 
@@ -54,26 +55,32 @@ public class BoardController {
         return "boardMain";
     }
 
-    // 글 상세보기
     @GetMapping("/boardDetail/{id}")
-    public String detail(@PathVariable Long id, Model model) {
-        Board board = boardRepository.findById(id).orElseThrow();  
+    public String detail(@PathVariable Long id,
+                         Model model,
+                         @AuthenticationPrincipal UserDetails userDetails) {
 
-        board.setCnt(board.getCnt() + 1);  //조회수 증가
+        Board board = boardRepository.findById(id).orElseThrow();
+
+        // 조회수 증가
+        board.setCnt(board.getCnt() + 1);
         boardRepository.save(board);
 
-        model.addAttribute("board", board); 
+        // 로그인 사용자와 작성자 비교
+        boolean isOwner = false;
+        if (userDetails != null && board.getMember() != null) {
+            String loginEmail = userDetails.getUsername(); // 로그인한 사용자 이메일
+            String writerEmail = board.getMember().getEmail(); // 작성자 이메일
+            isOwner = loginEmail.equals(writerEmail);
+        }
+
+        model.addAttribute("board", board);
+        model.addAttribute("isOwner", isOwner);
+
         return "boardDetail";
     }
-    
-    //글 수정
-    @GetMapping("/boardEdit/{id}")
-    public String editForm(@PathVariable Long id, Model model) {
-        Board board = boardRepository.findById(id).orElseThrow();
-        model.addAttribute("board", board);
-        return "boardEdit";  // 수정용 HTML 템플릿
-    }
-    
+
+     
     //글 수정 데이터 처리 
     @PostMapping("/boardEdit/{id}")
     public String editSubmit(@PathVariable Long id, @ModelAttribute Board updatedBoard) {
