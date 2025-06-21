@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yuhancon.domain.Concert;
+import com.yuhancon.domain.Member;
+import com.yuhancon.domain.RecentConcertView;
 import com.yuhancon.repository.ConcertRepository;
+import com.yuhancon.repository.MemberRepository;
+import com.yuhancon.repository.RecentConcertViewRepository;
 import com.yuhancon.repository.ReserveRepository;
 
 import jakarta.transaction.Transactional;
@@ -28,7 +34,13 @@ public class ConcertController {
 
     @Autowired
     private ReserveRepository reserveRepository;
+    
+    @Autowired
+    private RecentConcertViewRepository recentConcertViewRepository;
 
+    @Autowired
+    private MemberRepository memberRepository;
+    
     // 이미지 파일 저장 메서드
     public String saveImage(MultipartFile imageFile) throws IOException {
         if (imageFile.isEmpty()) return null;
@@ -90,11 +102,28 @@ public class ConcertController {
     }
 
     // 공연 상세 보기
+    @Transactional
     @GetMapping("/concertDetail/{id}")
-    public String showConcertDetail(@PathVariable Long id, Model model) {
+    public String showConcertDetail(@PathVariable Long id, Model model,
+    								@AuthenticationPrincipal UserDetails userDetails) {
         Concert concert = concertRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("해당 공연이 없습니다. id=" + id));
         model.addAttribute("concert", concert);
+        
+     // 최근 본 공연 기록 추가
+        if (userDetails != null) {
+            Member member = memberRepository.findByEmail(userDetails.getUsername())
+                                .orElseThrow();
+
+            recentConcertViewRepository.deleteByMemberAndConcert(member, concert); // 중복 제거
+            RecentConcertView view = new RecentConcertView();
+            view.setMember(member);
+            view.setConcert(concert);
+            view.setViewedAt(java.time.LocalDateTime.now());
+            recentConcertViewRepository.save(view);
+        }
+
+        
         return "concertDetail";
     }
 
