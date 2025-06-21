@@ -170,8 +170,10 @@ public class ConcertController {
     @PostMapping("/concertDelete/{id}")
     @Transactional
     public String deleteConcert(@PathVariable Long id) {
-        reserveRepository.deleteByConcertId(id); // 예매 먼저 삭제
-        concertRepository.deleteById(id);        // 공연 삭제
+    	
+    	recentConcertViewRepository.deleteByConcertId(id);
+    	reserveRepository.deleteByConcertId(id);
+    	concertRepository.deleteById(id);
         return "redirect:/concertList";
     }
 }
